@@ -1,0 +1,27 @@
+package org.jboss.ddoyle.drools.propertyreactive;
+
+import org.jboss.ddoyle.drools.propertyreactive.model.SimpleEvent;
+
+rule "SimpleTestRule"
+salience 100
+when
+	$eventOne: SimpleEvent()
+	$eventTwo: SimpleEvent($eventTwo != $eventOne)
+then
+	modify($eventOne) {
+		setStatus("bla");
+	}
+	System.out.println("Fired SimpleTestRule rule. EventOne: " + $eventOne.getEventId() + ", EventTwo: " + $eventTwo.getEventId());
+end
+
+rule "OtherSimpleTestRule" 
+when
+	$eventOne: SimpleEvent()
+	$eventTwo: SimpleEvent(this != $eventOne)
+then
+	modify($eventOne) {
+		setStatus("bla");
+	}
+	System.out.println("Fired OtherSimpleTestRule rule. EventOne: " + $eventOne.getEventId() + ", EventTwo: " + $eventTwo.getEventId());
+end
+
